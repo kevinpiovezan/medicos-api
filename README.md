@@ -32,6 +32,17 @@
 $ npm install
 ```
 
+## Docker(to install database)
+```bash
+$ docker-compose up
+#App will be running on a docker container on port 3000, there is no need to use "npm run start or start:dev"
+```
+
+## Typeorm
+```bash
+#To create tables
+$ yarn typeorm migration:run
+```
 ## Running the app
 
 ```bash
@@ -52,10 +63,8 @@ $ npm run start:prod
 $ npm run test
 
 # e2e tests
+#It was intentionally used uuid on the tables, so to properly run all e2e tests, get two IDs from your "especialidades" table and change on file: medico.e2e-spec.ts in especialidades: [...] inside the POST test
 $ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## Support
