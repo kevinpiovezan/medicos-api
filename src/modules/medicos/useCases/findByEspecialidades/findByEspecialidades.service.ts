@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Repository, getConnection } from 'typeorm';
 import { Medico } from '../../entities/medico.entity';
+import validator from 'validator';
 
 interface IEspecialidades {
   medico_id: string;
@@ -14,6 +15,8 @@ export class FindByEspecialidadesService {
   ) {}
   async findByEspecialidades(especialidades) {
     const connection = await getConnection();
+    if (!validator.isUUID(especialidades))
+      throw new HttpException('Passe um ID válido', HttpStatus.BAD_REQUEST);
     const especialidade: IEspecialidades[] = await connection.query(
       `SELECT distinct medico_id from medicos m join medicos_especialidades me WHERE me.especialidade_id = '${especialidades}' and me.medico_id IS NOT NULL;`,
     );

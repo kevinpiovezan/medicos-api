@@ -6,6 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Especialidades } from '../../../especialidades/entities/especialidades.entity';
 import { medicoInMemoryProviders } from '../../repository/inMemory/medico.inMemory.provider';
 import { especialidadeInMemoryProviders } from '../../../especialidades/repository/inMemory/especialidades.InMemory.provider';
+import validator from 'validator';
 
 interface ICreateDTO {
   name: string;
@@ -25,6 +26,7 @@ describe('FindByEspecialidadeService', () => {
 
   let medicos: ICreateDTO[];
   const mockRepository = {
+    validate: jest.fn((especialidades) => validator.isUUID(especialidades)),
     find: jest.fn((especialidades) =>
       medicos.find((medico) =>
         medico.especialidades.find(
@@ -97,7 +99,13 @@ describe('FindByEspecialidadeService', () => {
       },
     );
   });
-  it('should not be able to return a medico if CRM does not exists on database', () => {
-    expect(mockRepository.find('a_wrong_id')).toBeUndefined();
+  it('should not be able to return a medico if Especialidade does not exists on database', () => {
+    expect(
+      mockRepository.find('5104d018-dafc-4fac-b07d-e2924a67fb3d'),
+    ).toBeUndefined();
+  });
+  it('should not be able to return a medico if Especialidade is not a valid uuid', () => {
+    const wrongId = mockRepository.validate('anyid');
+    if (!wrongId) expect(wrongId).toBeFalsy();
   });
 });
