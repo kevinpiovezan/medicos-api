@@ -41,7 +41,7 @@ $ docker-compose up
 ## Typeorm
 ```bash
 #To create tables
-$ yarn typeorm migration:run
+$ npm run typeorm migration:run
 ```
 ## Running the app
 
