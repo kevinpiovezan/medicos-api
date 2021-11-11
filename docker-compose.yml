@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  database:
+      platform: linux/x86_64
+      image: mysql:5.7
+      container_name: database_medico_api
+      restart: always
+      ports:
+        - 3306:3306
+      environment:
+        MYSQL_DATABASE: 'clinica'
+        MYSQL_USER: 'gcb'
+        MYSQL_PASSWORD: 'gcb'
+        MYSQL_ROOT_PASSWORD: 'root'
+      volumes:
+        - db:/data/mysql
+  app:
+    build: .
+    container_name: medico-api
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - database
+    depends_on:
+      - database
+
+volumes:
+    db:
+      driver: local
