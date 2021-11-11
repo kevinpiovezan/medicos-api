@@ -67,6 +67,10 @@ $ npm run test
 $ npm run test:e2e
 ```
 
+## Insomnia
+```bash
+#Insomnia environment file is located at the root, the filename is medicos-api.environment.json
+```
 ## Support
 
 Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
